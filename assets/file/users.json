@@ -1,0 +1,13 @@
+{
+    "success":true,
+    "data":{
+        "user_name":"Yoni",
+        "full_name":"Yonatan Meberatu",
+        "bio":"Nov14",
+        "phone_number":"+251944751027",
+        "profile_picture":"assets/image/user1.jpg",
+        "last_seen":"2024-07-16T10:10:00Z",
+        "is_online":true
+
+    }
+}
