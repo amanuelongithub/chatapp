@@ -1,8 +1,11 @@
+import 'package:chatapp/controller/homepage_controller.dart';
 import 'package:chatapp/firebase_options.dart';
+import 'package:chatapp/route.dart';
 import 'package:chatapp/view/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,15 +20,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(HomepageController());
     return ScreenUtilInit(
         designSize: const Size(430, 932),
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          return const MaterialApp(
+          return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Chat app',
-            home: HomePage(),
+            initialRoute: HomePage.route,
+            routes: getRoutes(),
           );
         });
   }
