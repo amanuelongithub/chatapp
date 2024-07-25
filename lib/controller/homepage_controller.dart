@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 
 class HomepageController extends GetxController {
   bool isLoading = false;
-  bool isError = false;
-  String? errorMessage;
 
   List<UserModel>? users;
 
@@ -21,7 +19,7 @@ class HomepageController extends GetxController {
 
     FirebaseFirestore.instance
         .collection('users')
-        // .orderBy('lastActive', descending: true)
+        .orderBy('lastActive', descending: true)
         .snapshots(includeMetadataChanges: true)
         .listen((users) {
       this.users =
