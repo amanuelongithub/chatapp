@@ -10,13 +10,12 @@ class HomepageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchData();
+    fetchAllUsers();
   }
 
-  fetchData() async {
+  Future<void> fetchAllUsers() async {
     isLoading = true;
     update();
-
     FirebaseFirestore.instance
         .collection('users')
         .orderBy('lastActive', descending: true)
@@ -28,4 +27,6 @@ class HomepageController extends GetxController {
       update();
     });
   }
+
+
 }

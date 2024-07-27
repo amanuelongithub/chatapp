@@ -19,7 +19,7 @@ class CustomeButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
       child: Text(
-        title!,
+        title,
         style: const TextStyle(
           color: Colors.white, // Text color
           fontSize: 16,

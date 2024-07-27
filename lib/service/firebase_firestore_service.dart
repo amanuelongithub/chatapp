@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:chatapp/model/message_model.dart';
 import 'package:chatapp/model/user_model.dart';
@@ -24,10 +25,9 @@ class FirebaseFirestoreService {
       lastActive: DateTime.now(),
     );
 
-    await firestore
-        .collection('users')
-        .doc(uid)
-        .set(user.toJson());
+    await firestore.collection('users').doc(uid).set(user.toJson());
+
+    log(user.toJson().toString());
   }
 
   static Future<void> addTextMessage({
@@ -82,22 +82,18 @@ class FirebaseFirestoreService {
         .add(message.toJson());
   }
 
-  static Future<void> updateUserData(
-          Map<String, dynamic> data) async =>
+  static Future<void> updateUserData(Map<String, dynamic> data) async =>
       await firestore
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update(data);
 
-  static Future<List<UserModel>> searchUser(
-      String name) async {
+  static Future<List<UserModel>> searchUser(String name) async {
     final snapshot = await FirebaseFirestore.instance
         .collection('users')
         .where("name", isGreaterThanOrEqualTo: name)
         .get();
 
-    return snapshot.docs
-        .map((doc) => UserModel.fromJson(doc.data()))
-        .toList();
+    return snapshot.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
   }
 }

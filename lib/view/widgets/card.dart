@@ -1,3 +1,6 @@
+import 'package:chatapp/controller/chat_controller.dart';
+import 'package:chatapp/view/chat_page.dart';
+import 'package:get/get.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:chatapp/model/user_model.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +22,11 @@ class _UserCardState extends State<UserCard> {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        // onTap: () => Navigator.of(context).push(
-        //     MaterialPageRoute(
-        //         builder: (_) =>
-        //             ChatScreen(userId: widget.user.uid))),
+        onTap: () {
+          Get.find<ChatController>().getUserById(widget.user.uid);
+          Get.find<ChatController>().getMessages(widget.user.uid);
+          Navigator.pushNamed(context, ChatPage.route);
+        },
         child: ListTile(
           contentPadding: EdgeInsets.zero,
           leading: Stack(

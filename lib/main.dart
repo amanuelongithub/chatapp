@@ -1,8 +1,7 @@
 import 'package:chatapp/controller/auth_controller.dart';
-import 'package:chatapp/controller/homepage_controller.dart';
 import 'package:chatapp/firebase_options.dart';
 import 'package:chatapp/route.dart';
-import 'package:chatapp/view/auth/signup_page.dart';
+import 'package:chatapp/view/widgets/splash_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +21,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(AuthController());
-    Get.put(HomepageController());
     return ScreenUtilInit(
         designSize: const Size(430, 932),
         minTextAdapt: true,
@@ -31,7 +29,7 @@ class MyApp extends StatelessWidget {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Chat app',
-            initialRoute: SignUpPage.route,
+            initialRoute: SplashPage.route,
             routes: getRoutes(),
           );
         });

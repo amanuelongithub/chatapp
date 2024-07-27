@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:chatapp/controller/auth_controller.dart';
+import 'package:chatapp/service/firebase_firestore_service.dart';
+import 'package:chatapp/view/auth/signup_page.dart';
+import 'package:chatapp/view/home_page.dart';
 import 'package:chatapp/view/widgets/constant.dart';
 import 'package:chatapp/view/widgets/custome_btn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -47,7 +53,10 @@ class _LoginPageState extends State<LoginPage> {
                     Text('Already have an account? ',
                         style: TextStyle(fontSize: 15.sp)),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _.clearError();
+                        Navigator.popAndPushNamed(context, SignUpPage.route);
+                      },
                       child: Text(
                         'Signup',
                         style: TextStyle(
@@ -118,13 +127,20 @@ class _LoginPageState extends State<LoginPage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
-                    onTap: () {
-                      // Handle password recovery
-                    },
+                    onTap: () {},
                     child: const Text(
                       'Recovery Password',
                       style: TextStyle(color: Colors.blue),
                     ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.sp,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: _.formErrors.isNotEmpty
+                        ? errorMessage(_.formErrors.last)
+                        : Container(),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -132,7 +148,15 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     child: CustomeButton(
                       title: "Continue",
-                      onPressed: () {},
+                      onPressed: () {
+                        _formKey.currentState?.save();
+                        if (_formKey.currentState!.validate() &&
+                            _.formErrors.isEmpty) {
+                          signIn();
+                        } else {
+                          Get.find<AuthController>().update();
+                        }
+                      },
                     )),
               ],
             ),
@@ -140,5 +164,31 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     });
+  }
+
+  Future signIn() async {
+    Get.find<AuthController>().isLoading = true;
+    Get.find<AuthController>().update();
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email!,
+        password: pwd!,
+      );
+
+      await FirebaseFirestoreService.updateUserData(
+        {'lastActive': DateTime.now()},
+      );
+
+      Navigator.pushReplacementNamed(context, HomePage.route);
+    } on FirebaseAuthException catch (e) {
+      final snackBar = SnackBar(content: Text(e.message!));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } on SocketException {
+      const snackBar = SnackBar(content: Text("Please Check your internet"));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    Get.find<AuthController>().isLoading = false;
+    Get.find<AuthController>().update();
   }
 }

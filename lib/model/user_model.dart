@@ -21,7 +21,7 @@ class UserModel {
         image: json['image'],
         email: json['email'],
         isOnline: json['isOnline'] ?? false,
-        lastActive: DateTime.parse(json['lastActive']),
+        lastActive: json['lastActive'].toDate(),
       );
 
   Map<String, dynamic> toJson() => {
