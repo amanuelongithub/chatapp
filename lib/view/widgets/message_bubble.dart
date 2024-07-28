@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/model/message_model.dart';
 import 'package:chatapp/view/widgets/constant.dart';
 import 'package:flutter/material.dart';
@@ -41,14 +42,14 @@ class MessageBubble extends StatelessWidget {
             children: [
               isImage
                   ? Container(
-                      height: 200,
-                      width: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                          image: NetworkImage(message.content),
-                          fit: BoxFit.cover,
-                        ),
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: message.content,
+                        height: 200,
+                        width: 200,
+                        fit: BoxFit.cover,
                       ),
                     )
                   : Text(message.content,

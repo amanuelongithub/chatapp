@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/controller/chat_controller.dart';
 import 'package:chatapp/view/chat_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:chatapp/model/user_model.dart';
@@ -32,9 +34,14 @@ class _UserCardState extends State<UserCard> {
           leading: Stack(
             alignment: Alignment.bottomRight,
             children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(widget.user.image),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: CachedNetworkImage(
+                  imageUrl: widget.user.image,
+                  height: 57.r,
+                  width: 57.r,
+                  fit: BoxFit.cover,
+                ),
               ),
               widget.user.isOnline
                   ? const Positioned(

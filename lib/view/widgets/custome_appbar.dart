@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatapp/controller/chat_controller.dart';
 import 'package:chatapp/controller/homepage_controller.dart';
 import 'package:chatapp/service/firebase_firestore_service.dart';
@@ -60,7 +61,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 Row(
                   children: [
                     image != null
-                        ? CircleAvatar(backgroundImage: NetworkImage(image!))
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              imageUrl: image!,
+                              height: 50.r,
+                              width: 50.r,
+                              fit: BoxFit.cover,
+                            ),
+                          )
                         : const SizedBox(),
                     const SizedBox(width: 15),
                     GestureDetector(
@@ -83,10 +92,16 @@ class _CustomAppBarState extends State<CustomAppBar> {
           : Row(
               children: [
                 CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(Get.find<ChatController>().user!.image),
-                  radius: 20,
-                ),
+                    radius: 20,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                        imageUrl: Get.find<ChatController>().user!.image,
+                        height: 57.r,
+                        width: 57.r,
+                        fit: BoxFit.cover,
+                      ),
+                    )),
                 SizedBox(width: 12.w),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
