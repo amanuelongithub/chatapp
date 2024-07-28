@@ -35,16 +35,24 @@ class _LoginPageState extends State<LoginPage> {
         );
       } else {
         return Scaffold(
-          body: Padding(
+          backgroundColor: Colors.black,
+          body: Container(
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30))),
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            margin: const EdgeInsets.only(top: 80),
+            child: ListView(
               children: [
                 const SizedBox(height: 100),
-                Text(
-                  'Create an account',
-                  style:
-                      TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold),
+                Center(
+                  child: Text(
+                    'Welcome to Chat app',
+                    style:
+                        TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 SizedBox(height: 12.h),
                 Row(
@@ -177,10 +185,11 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       await FirebaseFirestoreService.updateUserData(
-        {'lastActive': DateTime.now()},
+        {'isOnline': true, 'lastActive': DateTime.now()},
       );
-
-      Navigator.pushReplacementNamed(context, HomePage.route);
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, HomePage.route);
+      }
     } on FirebaseAuthException catch (e) {
       final snackBar = SnackBar(content: Text(e.message!));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);

@@ -24,27 +24,35 @@ class _ChatPageState extends State<ChatPage> {
           body: Center(child: CircularProgressIndicator()),
         );
       } else {
-        return Scaffold(
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-          appBar: PreferredSize(
-              preferredSize: Size(double.infinity, 80.h),
-              child: const CustomAppBar(ishome: false)),
-          body: Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30))),
-            child: const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: ChatMessages(),
+        return Material(
+          child: Scaffold(
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+            appBar: PreferredSize(
+                preferredSize: Size(double.infinity, 80.h),
+                child: const CustomAppBar(ishome: false)),
+            body: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30))),
+                    child: const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: ChatMessages(),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 70,
+                  padding: EdgeInsets.only(left: 20.w, right: 10),
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: const ChatTextField(),
+                ),
+              ],
             ),
-          ),
-          bottomNavigationBar: Container(
-            height: 80,
-            padding: EdgeInsets.only(left: 20.w, right: 10),
-            decoration: const BoxDecoration(color: Colors.white),
-            child: const ChatTextField(),
           ),
         );
       }

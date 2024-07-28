@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         FirebaseFirestoreService.updateUserData({'isOnline': false});
         break;
       case AppLifecycleState.hidden:
+        break;
     }
   }
 
@@ -55,6 +56,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    Get.find<HomepageController>().fetchAllUsers();
     return GetBuilder<HomepageController>(builder: (_) {
       if (_.isLoading) {
         return const Scaffold(
