@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../service/firebase_firestore_service.dart';
-import '../../service/media_service.dart';
 
 class ChatTextField extends StatefulWidget {
   const ChatTextField({super.key});
@@ -87,7 +86,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
   }
 
   Future<void> _sendImage() async {
-    final pickedImage = await MediaService.pickImage();
+    final pickedImage = await pickImage();
     setState(() => file = pickedImage);
     if (file != null) {
       await FirebaseFirestoreService.addImageMessage(
